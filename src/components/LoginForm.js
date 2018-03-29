@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text } from 'react-native';
 import { connect } from 'react-redux';
 import { Card, CardSection, Input, Button, Spinner } from './common';
-import { emailChanged, passwordChanged, loginUser, triggerLoader } from '../actions';
+import { emailChanged, passwordChanged, loginUser } from '../actions';
 
 
 class LoginForm extends Component {
@@ -17,13 +17,11 @@ class LoginForm extends Component {
     
     onButtonPress(text) {
         const { email, password } = this.props;
-        console.log(this.props);
-        this.props.triggerLoader();
         this.props.loginUser({ email, password });
     }
 
     renderButton() {
-        if (this.props.isLoading) {
+        if (this.props.loading) {
             return <Spinner />
         }else{
             return <Button onPress={this.onButtonPress.bind(this)}>Login</Button>;
@@ -66,8 +64,8 @@ const mapStateToProps = state => {
         email: state.auth.email,
         password: state.auth.password,
         error: state.auth.error,
-        isLoading: state.auth.isLoading,
+        loading: state.auth.loading,
     }
 }
 
-export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUser, triggerLoader })(LoginForm);
+export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUser })(LoginForm);
